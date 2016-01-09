@@ -17,86 +17,123 @@ namespace TextEditer301
             InitializeComponent();
         }
 
+        bool m_text_changed = false;
+        string m_file_name = "";
+
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
+            m_text_changed = true;
+        }
+
+        public bool DoOpen(string file_name)
+        {
+            try
+            {
+                var text = System.IO.File.ReadAllText(file_name);
+                textBox1.Text = text;
+                m_file_name = file_name;
+                return true;
+            }
+            catch (Exception) 
+            {
+                MessageBox.Show("開けませんでした。");
+            }
+            return false;
+        }
+        public bool DoSave(string file_name)
+        {
+            if (file_name == "")
+            {
+                return DoSaveAs();
+            }
+
+            try
+            {
+                var text = textBox1.Text;
+                System.IO.File.WriteAllText(file_name, text);
+                m_file_name = file_name;
+                return true;
+            } 
+            catch (Exception)
+            {
+                MessageBox.Show("保存できませんでした。");
+            }
+            return false;
+        }
+        public bool DoSaveAs()
+        {
+            var sfd = new SaveFileDialog();
+            //ファイルの種類
+            sfd.Filter =
+                "テキスト文書 (*.txt;*.html;*.htm;*.log)|*.txt;*.html;*.htm;*.log|すべてのファイル (*.*)|*.*";
+            //ファイルの種類の選択
+            sfd.FilterIndex = 0;
+            //タイトル
+            sfd.Title = "名前を付けて保存";
+            //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+            sfd.RestoreDirectory = true;
+            // 既定の拡張子を設定。
+            sfd.DefaultExt = "txt";
+            //ダイアログを表示する
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                return DoSave(sfd.FileName);
+            }
+            return false;
         }
 
         private void 開くOToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //OpenFileDialogクラスのインスタンスを作成
-            OpenFileDialog ofd = new OpenFileDialog();
+            var ofd = new OpenFileDialog();
+            //[ファイルの種類]に表示される選択肢を指定する
+            ofd.Filter =
+                "テキスト文書 (*.txt;*.html;*.htm;*.log)|*.txt;*.html;*.htm;*.log|すべてのファイル (*.*)|*.*";
+            //[ファイルの種類]ではじめに
+            //「Textファイル」が選択されているようにする
+            ofd.FilterIndex = 0;
+            //タイトルを設定する
+            ofd.Title = "開く";
+            //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
+            ofd.RestoreDirectory = true;
+            // 既定の拡張子を設定。
+            ofd.DefaultExt = "txt";
             //ダイアログを表示する
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-                //OKボタンがクリックされたとき
-                //選択されたファイルを読み取り専用で開く
-                System.IO.Stream stream;
-                stream = ofd.OpenFile();
-                if (stream != null)
-                {
-                    //内容を読み込み、表示する
-                    System.IO.StreamReader sr =
-                        new System.IO.StreamReader(stream);
-                    //textBox1に内容を表示
-                    textBox1.Text = sr.ReadToEnd();
-                    //閉じる
-                    sr.Close();
-                    stream.Close();
-                }
+                DoOpen(ofd.FileName);
             }
         }
 
         private void 名前を付けて保存AToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //SaveFileDialogクラスのインスタンスを作成
-            SaveFileDialog sfd = new SaveFileDialog();
-
-            //はじめのファイル名を指定する
-            sfd.FileName = "*.txt";
-            //はじめに表示されるフォルダを指定する
-            sfd.InitialDirectory = @"C:\";
-            //[ファイルの種類]に表示される選択肢を指定する
-            sfd.Filter =
-                "テキスト文書(*.txt)|*.html|すべてのファイル(*.*)|*.*";
-            //[ファイルの種類]ではじめに
-            //「Textファイル」が選択されているようにする
-            sfd.FilterIndex = 0;
-            //タイトルを設定する
-            sfd.Title = "名前を付けてファイルを保存";
-            //ダイアログボックスを閉じる前に現在のディレクトリを復元するようにする
-            sfd.RestoreDirectory = true;
-            //既に存在するファイル名を指定したとき警告する
-            //デフォルトでTrueなので指定する必要はない
-            sfd.OverwritePrompt = true;
-            //存在しないパスが指定されたとき警告を表示する
-            //デフォルトでTrueなので指定する必要はない
-            sfd.CheckPathExists = true;
-
-            //ダイアログを表示する
-            if (sfd.ShowDialog() == DialogResult.OK)
-            {
-                //OKボタンがクリックされたとき
-                //選択された名前で新しいファイルを作成し、
-                //読み書きアクセス許可でそのファイルを開く
-                //既存のファイルが選択されたときはデータが消える恐れあり
-                System.IO.Stream stream;
-                stream = sfd.OpenFile();
-                if (stream != null)
-                {
-                    //ファイルに書き込む
-                    System.IO.StreamWriter sw = new System.IO.StreamWriter(stream);
-                    //テキストボックス1の内容を保存する
-                    sw.Write(textBox1.Text);
-                    //閉じる
-                    sw.Close();
-                    stream.Close();
-                }
-            }
+            DoSaveAs();
         }
 
         private void 終了XToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (m_text_changed) {
+                var result = 
+                    MessageBox.Show(
+                        "変更されています。保存しますか？",
+                        "変更の保存", MessageBoxButtons.YesNoCancel);
+                switch (result)
+                {
+                    case DialogResult.Yes:
+                        DoSave(m_file_name);
+                        break;
+                    case DialogResult.No:
+                        break;
+                    case DialogResult.Cancel:
+                        return;
+                }
+            }
             this.Close();
+        }
+
+        private void 上書き保存StCtrlSToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DoSave(m_file_name);
         }
     }
 }
