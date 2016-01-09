@@ -45,6 +45,9 @@
             this.貼り付けToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.削除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.すべて選択ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.元に戻すToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ヘルプToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.バージョン情報ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -52,7 +55,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ファイルFToolStripMenuItem,
-            this.編集ToolStripMenuItem});
+            this.編集ToolStripMenuItem,
+            this.ヘルプToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(284, 26);
@@ -137,7 +141,8 @@
             this.コピーToolStripMenuItem,
             this.貼り付けToolStripMenuItem,
             this.削除ToolStripMenuItem,
-            this.すべて選択ToolStripMenuItem});
+            this.すべて選択ToolStripMenuItem,
+            this.元に戻すToolStripMenuItem});
             this.編集ToolStripMenuItem.Name = "編集ToolStripMenuItem";
             this.編集ToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
             this.編集ToolStripMenuItem.Text = "編集";
@@ -177,6 +182,28 @@
             this.すべて選択ToolStripMenuItem.Text = "すべて選択";
             this.すべて選択ToolStripMenuItem.Click += new System.EventHandler(this.すべて選択ToolStripMenuItem_Click);
             // 
+            // 元に戻すToolStripMenuItem
+            // 
+            this.元に戻すToolStripMenuItem.Name = "元に戻すToolStripMenuItem";
+            this.元に戻すToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.元に戻すToolStripMenuItem.Text = "元に戻す";
+            this.元に戻すToolStripMenuItem.Click += new System.EventHandler(this.元に戻すToolStripMenuItem_Click);
+            // 
+            // ヘルプToolStripMenuItem
+            // 
+            this.ヘルプToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.バージョン情報ToolStripMenuItem});
+            this.ヘルプToolStripMenuItem.Name = "ヘルプToolStripMenuItem";
+            this.ヘルプToolStripMenuItem.Size = new System.Drawing.Size(56, 22);
+            this.ヘルプToolStripMenuItem.Text = "ヘルプ";
+            // 
+            // バージョン情報ToolStripMenuItem
+            // 
+            this.バージョン情報ToolStripMenuItem.Name = "バージョン情報ToolStripMenuItem";
+            this.バージョン情報ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.バージョン情報ToolStripMenuItem.Text = "バージョン情報";
+            this.バージョン情報ToolStripMenuItem.Click += new System.EventHandler(this.バージョン情報ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -213,6 +240,9 @@
         private System.Windows.Forms.ToolStripMenuItem 貼り付けToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 削除ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem すべて選択ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 元に戻すToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ヘルプToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem バージョン情報ToolStripMenuItem;
     }
 }
 

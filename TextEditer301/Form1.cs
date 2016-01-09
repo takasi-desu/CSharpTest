@@ -182,5 +182,29 @@ namespace TextEditer301
             //テキストをすべて選択
             textBox1.SelectAll();
         }
+
+        private void 元に戻すToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Determine if last operation can be undone in text box.   
+            if (textBox1.CanUndo == true)
+            {
+                // Undo the last operation.
+                textBox1.Undo();
+                // Clear the undo buffer to prevent last action from being redone.
+                textBox1.ClearUndo();
+            }
+        }
+
+        private void バージョン情報ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // VerForm の新しいインスタンスを生成する
+            VerForm cVerForm = new VerForm();
+
+            // VerForm をモーダルで表示する
+            cVerForm.ShowDialog();
+
+            // 不要になった時点で破棄する (正しくは オブジェクトの破棄を保証する を参照)
+            cVerForm.Dispose();
+        }
     }
 }
