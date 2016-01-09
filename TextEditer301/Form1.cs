@@ -135,5 +135,52 @@ namespace TextEditer301
         {
             DoSave(m_file_name);
         }
+
+        private void 切り取りToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (textBox1.SelectionLength > 0)
+            {
+                //選択されている文字列があるときは切り取る
+                //（SelectionLengthで調べなくても問題はない）
+                textBox1.Cut();
+            }
+        }
+
+        private void コピーToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (textBox1.SelectionLength > 0)
+            {
+                //選択されている文字列があるときはコピーする
+                //（SelectionLengthで調べなくても問題はない）
+                textBox1.Copy();
+            }
+        }
+
+        private void 貼り付けToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IDataObject data = Clipboard.GetDataObject();
+            if (data != null && data.GetDataPresent(DataFormats.Text) == true)
+            {
+                //クリップボードにテキストデータがあるときは貼り付ける
+                //（テキストデータの有無を調べなくても問題はない）
+                textBox1.Paste();
+            }
+        }
+
+        private void 削除ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (textBox1.SelectionLength > 0)
+            {
+                //選択されている文字列があるときは削除する
+                //（SelectionLengthで調べなくても問題はない）
+                textBox1.SelectedText = "";
+            }
+        }
+
+        private void すべて選択ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //テキストをすべて選択
+            textBox1.SelectAll();
+        }
     }
 }
